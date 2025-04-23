@@ -4,7 +4,9 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}
 spec:
-  {{- if eq .Values.env "prod" }}
+  {{- if .Values.deployment.replicas }}
+  replicas: {{ .Values.deployment.replicas }}
+  {{- else if eq .Values.env "prod" }}
   replicas: 2
   {{- else }}
   replicas: 1
