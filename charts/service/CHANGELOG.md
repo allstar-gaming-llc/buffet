@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2025-07-04
+
+### Added
+
+- Added proper opentelemetry service name annotation to the `deployment`
+  so it gets picked up by loki.
+
 ## [2.4.0] - 2025-04-23
 
 ### Added
