@@ -16,6 +16,8 @@ spec:
       service: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        resource.opentelemetry.io/service.name: {{ .Release.Name }}
       labels:
         service: {{ .Release.Name }}
     spec:
