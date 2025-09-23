@@ -1,0 +1,13 @@
+{{- if and .Values.autoscaling.keda.enabled .Values.autoscaling.keda.triggers }}
+---
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: {{ .Release.Name }}-scaler-auth
+  namespace: {{ .Values.autoscaling.keda.namespace | default .Release.Namespace }}
+spec:
+  secretTargetRef:
+  - parameter: credentials
+    name: {{ .Release.Name }}
+    key: nats-credentials
+{{- end }}
