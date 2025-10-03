@@ -4,12 +4,14 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   {{- if .Values.deployment.replicas }}
   replicas: {{ .Values.deployment.replicas }}
   {{- else if eq .Values.env "prod" }}
   replicas: 2
   {{- else }}
   replicas: 1
+  {{- end }}
   {{- end }}
   selector:
     matchLabels:
