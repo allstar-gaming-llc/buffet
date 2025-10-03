@@ -1,0 +1,41 @@
+{{- if and .Values.autoscaling.keda.enabled .Values.autoscaling.keda.triggers }}
+---
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ .Release.Name }}-keda
+  namespace: {{ .Values.autoscaling.keda.namespace | default .Release.Namespace }}
+spec:
+  scaleTargetRef:
+    name: {{ .Release.Name }}
+  minReplicaCount: {{ .Values.autoscaling.replicas.min }}
+  maxReplicaCount: {{ .Values.autoscaling.replicas.max }}
+  triggers:
+  {{- range .Values.autoscaling.keda.triggers }}
+  - type: {{ .type }}
+    metadata:
+      {{- if eq .type "nats-jetstream" }}
+        {{- $monitoringEndpoint := .natsServerMonitoringEndpoint }}
+        {{- if .natsServerUrl }}
+          {{- $natsUrl := .natsServerUrl }}
+          {{- $monitoringEndpoint = printf "%s:8222" (trimPrefix "tls://" (trimPrefix "nats://" $natsUrl)) }}
+        {{- end }}
+        natsServerMonitoringEndpoint: "{{ $monitoringEndpoint }}"
+        account: "{{ .account }}"
+        stream: "{{ .stream }}"
+        consumer: "{{ .consumer }}"
+        lagThreshold: "{{ .lagThreshold }}"
+        {{- if .activationLagThreshold }}
+        activationLagThreshold: "{{ .activationLagThreshold }}"
+        {{- end }}
+        useHttps: "{{ .useHttps }}"
+        {{- if .authentication.enabled }}
+        credentials: "{{ $.Release.Name }}-scaler-auth-creds"
+        {{- end }}
+      {{- end }}
+    {{- if and (eq .type "nats-jetstream") .authentication.enabled }}
+    authenticationRef:
+      name: {{ $.Release.Name }}-scaler-auth
+    {{- end }}
+  {{- end }}
+{{- end }}
