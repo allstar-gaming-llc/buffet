@@ -85,6 +85,13 @@ service:
 
 ingress:
   enabled: false
+  # pathPrefix accepts either a single string or a list of strings.
+  # null or [] mean "no path constraint" (host match only).
+  # Examples:
+  #   pathPrefix: /api
+  #   pathPrefix:
+  #     - /api
+  #     - /v2
   pathPrefix: null
   hostnames: []
   middlewares: []
