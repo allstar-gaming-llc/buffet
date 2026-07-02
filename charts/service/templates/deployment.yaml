@@ -26,6 +26,18 @@ spec:
       {{- if .Values.serviceAccount }}
       serviceAccount: {{ .Values.serviceAccount }}
       {{- end }}
+      {{- if .Values.deployment.affinity }}
+      affinity: {{- toYaml .Values.deployment.affinity | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.topologySpreadConstraints }}
+      topologySpreadConstraints: {{- toYaml .Values.deployment.topologySpreadConstraints | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.nodeSelector }}
+      nodeSelector: {{- toYaml .Values.deployment.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.deployment.tolerations }}
+      tolerations: {{- toYaml .Values.deployment.tolerations | nindent 8 }}
+      {{- end }}
       containers:
       {{- range $name, $container := .Values.deployment.containers }}
       - name: {{ $name }}
