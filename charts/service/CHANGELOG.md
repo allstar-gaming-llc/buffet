@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Probes accept an optional `timeout` key, rendered as `timeoutSeconds`.
+  Omitted, the rendered output is unchanged (Kubernetes defaults to 1s).
+
 - `ingress.pathPrefix` now accepts a list of strings in addition to a single
   string. When a list is provided, the IngressRoute matches any of the listed
   prefixes via OR'd `PathPrefix(...)` matchers under the same host match. The

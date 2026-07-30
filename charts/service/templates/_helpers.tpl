@@ -9,6 +9,9 @@ initialDelaySeconds: {{ .initialDelay }}
 {{- if .period }}
 periodSeconds: {{ .period }}
 {{- end }}
+{{- if .timeout }}
+timeoutSeconds: {{ .timeout }}
+{{- end }}
 {{- if eq .type "httpGet" }}
 httpGet:
   path: {{ .path }}
