@@ -41,6 +41,21 @@ deployment:
   nodeSelector: {}
   tolerations: []
 
+  # Rollout strategy (optional), passed through verbatim (standard Kubernetes
+  # shape). Omitted, Kubernetes defaults to RollingUpdate.
+  # Example — single-replica services that must never run two pods at once:
+  #   strategy:
+  #     type: Recreate
+  strategy: {}
+
+  # Pod volumes (optional), passed through verbatim; pair each entry with a
+  # volumeMounts entry on a container.
+  #   volumes:
+  #     - name: data
+  #       persistentVolumeClaim:
+  #         claimName: <claim>
+  volumes: []
+
   containers:
     default:
       resources:
@@ -63,6 +78,12 @@ deployment:
       # envVars;
       #   <ENV_VAR_NAME>: <envVarValue>
       staticEnv: {}
+
+      # volume mounts (optional), passed through verbatim, e.g.
+      #   volumeMounts:
+      #     - name: data
+      #       mountPath: /data
+      volumeMounts: []
 
       ports:
         http: 3000
