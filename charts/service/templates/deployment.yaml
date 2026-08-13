@@ -13,6 +13,9 @@ spec:
   replicas: 1
   {{- end }}
   {{- end }}
+  {{- if .Values.deployment.strategy }}
+  strategy: {{- toYaml .Values.deployment.strategy | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       service: {{ .Release.Name }}
@@ -95,6 +98,9 @@ spec:
           containerPort: {{ $v }}
         {{- end }}
         {{- end }}
+        {{- if $container.volumeMounts }}
+        volumeMounts: {{- toYaml $container.volumeMounts | nindent 8 }}
+        {{- end }}
         {{- if $container.startupProbe }}
         startupProbe: {{- include "probe" $container.startupProbe  | indent 10 }}
         {{- end }}
@@ -104,4 +110,7 @@ spec:
         {{- if $container.readinessProbe }}
         readinessProbe: {{- include "probe" $container.readinessProbe | indent 10 }}
         {{- end }}
+      {{- end }}
+      {{- if .Values.deployment.volumes }}
+      volumes: {{- toYaml .Values.deployment.volumes | nindent 8 }}
       {{- end }}
