@@ -41,6 +41,9 @@ spec:
       {{- if .Values.deployment.tolerations }}
       tolerations: {{- toYaml .Values.deployment.tolerations | nindent 8 }}
       {{- end }}
+      {{- if .Values.deployment.securityContext }}
+      securityContext: {{- toYaml .Values.deployment.securityContext | nindent 8 }}
+      {{- end }}
       containers:
       {{- range $name, $container := .Values.deployment.containers }}
       - name: {{ $name }}
