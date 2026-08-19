@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.11.0] - 2026-08-19
+
+### Added
+
+- `deployment.securityContext` (optional, verbatim Kubernetes shape) sets the
+  pod security context. Needed for PVC-backed volumes on SELinux-enforcing
+  nodes (Bottlerocket): `fsGroup` fixes volume ownership on mount and
+  `seLinuxOptions` gives every pod of the service the same volume label, so
+  files persist readably across pod recreations. Omitted, the rendered output
+  is unchanged.
+
 ## [2.10.0] - 2026-08-13
 
 ### Added

@@ -56,6 +56,19 @@ deployment:
   #         claimName: <claim>
   volumes: []
 
+  # Pod security context (optional), passed through verbatim (standard
+  # Kubernetes shape). Needed for PVC-backed volumes on SELinux-enforcing
+  # nodes (Bottlerocket): fsGroup has kubelet chown the volume on mount, and
+  # seLinuxOptions mounts it with a stable label every pod of the service
+  # shares — without it each pod gets its own MCS label and files written by
+  # one pod are unreadable to the next.
+  # Example:
+  #   securityContext:
+  #     fsGroup: 1000
+  #     seLinuxOptions:
+  #       level: s0
+  securityContext: {}
+
   containers:
     default:
       resources:
